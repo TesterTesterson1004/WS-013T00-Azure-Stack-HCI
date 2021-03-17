@@ -132,10 +132,31 @@ The main tasks for this exercise are as follows:
    }
    ```
 
-1. Copy **F:\\WSLab-master\\Scripts\\Scenario.ps1** from the lab VM to **C:\\Library** on the **SDNExpress2019-Management** VM.
-1. Within the console session to the **SDNExpress2019-Management** VM, from the Administrator: Windows PowerShell ISE window, open the **C:\\Library\\Scenario.ps1** script, save its content from the line 136, starting from the line above `# Run from DC / VMM #` onward as **Scenario_Part2.ps1**, and then run it to configure the SDN VMs.
+1. On the lab VM, from the **script** pane of the Administrator: Windows PowerShell ISE window, run the following commands to download the following file:
 
-   > **Note**: You must run this part of the scenario script from the management VM.
+   ```powershell
+   New-Item F:\Allfiles -itemtype directory -Force
+   Invoke-Webrequest -Uri "https://raw.githubusercontent.com/MicrosoftLearning/WS-013T00-Azure-Stack-HCI/master/Instructions/Allfiles/SDNExpressModule.psm1" -Outfile "F:\Allfiles\SDNExpressModule.psm1"
+   ```
+
+1. Within the console session to the **SDNExpress2019-Management** VM, start File Explorer and navigate to the **C:\\Library** folder.
+
+1. Switch back to the lab VM and use the copy and paste functionality of the **Hyper-V** console session to copy **F:\\WSLab-master\\Scripts\\Scenario.ps1** and **F:\\Allfiles\\SDNExpressModule.psm1** on the lab VM to **C:\\Library** on the **SDNExpress2019-Management** VM.
+
+1. Within the console session to the **SDNExpress2019-Management** VM, in the Administrator: Windows PowerShell ISE window, open the **C:\\Library\\Scenario.ps1** script, and comment out line 375 so it looks like so: `# Expand-Archive -Path C:\SDN-Master.zip -DestinationPath C:\Library` 
+
+1. Within the console session to the **SDNExpress2019-Management** VM, in the Administrator: Windows PowerShell ISE window, remove all content before the line 136, up to the line prior to `# Run from DC / VMM #`, and then save the modified file as **Scenario_Part2.ps1**.
+
+1. Within the console session to the **SDNExpress2019-Management** VM, in the Administrator: Windows PowerShell ISE window, run the following command:
+
+   ```powershell
+   Expand-Archive -Path C:\SDN-Master.zip -DestinationPath C:\Library
+   Copy-Item -Path C:\Library\SDNExpressModule.psm1 -Destination C:\Library\SDN-master\SDNExpress\scripts -Force
+   ```
+
+   > **Note**: This part of the scenario script needs to be run from the management VM.
+
+1. Within the console session to the **SDNExpress2019-Management** VM, in the Administrator: Windows PowerShell ISE window, run the newly saved **C:\\Library\\Scenario_Part2.ps1** script to configure the SDN VMs.
 
    > **Note**: Wait until the script completes before you proceed. The script should complete in about 90 minutes. Disregard any cluster validation errors.
 
